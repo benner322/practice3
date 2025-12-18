@@ -44,8 +44,8 @@ class UVM:
     def execute_write_mem(self, b):
         if not self.stack:
             raise RuntimeError("Stack underflow")
-        value = self.stack.pop()
-        addr = b
+        addr = self.stack.pop()  # адрес из стека
+        value = self.stack.pop()  # значение из стека (новый верх стека после извлечения адреса)
         if 0 <= addr < len(self.data_memory):
             self.data_memory[addr] = value
         else:
@@ -55,8 +55,9 @@ class UVM:
     def execute_less_or_eq(self, b):
         if len(self.stack) < 2:
             raise RuntimeError("Stack underflow")
-        right = self.stack.pop()
-        left = self.stack.pop()
+        right = self.stack.pop()  # второй операнд из стека
+        addr = b  # адрес первого операнда из поля B
+        left = self.data_memory[addr]  # первый операнд из памяти по адресу B
         result = 1 if left <= right else 0
         self.stack.append(result)
         self.ip += 3
@@ -113,3 +114,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
