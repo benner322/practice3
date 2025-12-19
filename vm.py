@@ -41,20 +41,20 @@ class UVM:
             raise IndexError(f"Read invalid address: {addr}")
         self.ip += 3
     
-        def execute_write_mem(self, b):
-            if len(self.stack) < 2:
-                raise RuntimeError("Stack underflow")
+    def execute_write_mem(self, b):
+        if len(self.stack) < 2:
+            raise RuntimeError("Stack underflow")
         
-            value = self.stack.pop()
-            addr = self.stack.pop()
-            final_addr = addr + b
+        value = self.stack.pop()
+        addr = self.stack.pop()
+        final_addr = addr + b
         
-            if 0 <= final_addr < len(self.data_memory):
-                self.data_memory[final_addr] = value
-            else:
-                raise IndexError(f"Write invalid address: {final_addr}")
+        if 0 <= final_addr < len(self.data_memory):
+            self.data_memory[final_addr] = value
+        else:
+            raise IndexError(f"Write invalid address: {final_addr}")
         
-            self.ip += 3
+        self.ip += 3
            
     def execute_less_or_eq(self, b):
         if len(self.stack) < 2:
